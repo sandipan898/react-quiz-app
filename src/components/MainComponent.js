@@ -52,7 +52,7 @@ export default function MainComponent() {
 
     const handleSelectChange = (event) => {
         setSelect(event.target.value,);
-      };
+    };
 
 
     function decodeString(str) {
@@ -67,11 +67,6 @@ export default function MainComponent() {
                 <form className="header" onSubmit={handleSubmit}>
                     <FormControl variant="outlined" className="form-group">
                         <InputLabel htmlFor="category">Category</InputLabel>
-                        {/* <select id="category" ref={categoryEl}>
-                        {categories.map(category => {
-                            return <option value={category.id} key={category.id}>{category.name}</option>
-                        })}
-                    </select> */}
                         <Select
                             native
                             value={select}
@@ -87,10 +82,6 @@ export default function MainComponent() {
                             })}
                         </Select>
                     </FormControl>
-                    {/* <div className="form-group">
-                    <label htmlFor="amount">Number of questions</label>
-                    <input type="number" id="amount" min="1" step="1" defaultValue={10} ref={amountEl} />
-                </div> */}
                     <TextField
                         id="standard-number"
                         label="Number of questions"
@@ -101,7 +92,7 @@ export default function MainComponent() {
                         }}
                         variant="outlined"
                         inputRef={amountEl}
-                        style={{margin: "10px"}}
+                        style={{ margin: "10px" }}
                     />
                     <div className="form-group">
                         {/* <button className="btn">Generate</button> */}
