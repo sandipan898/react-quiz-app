@@ -11,23 +11,31 @@ function App() {
       .get('https://opentdb.com/api.php?amount=10')
       .then(res => {
         // console.log(res.data)
-        res.data.results.map((questionItem, index) => {
-          const answer = questionItem.correct_answer
+        setFlashcards(res.data.results.map((questionItem, index) => {
+          const answer = decodeString(questionItem.correct_answer)
           const options = [
-            ...questionItem.incorrect_answers, answer
+            ...questionItem.incorrect_answers.map(a => decodeString(a)), answer
           ]
           return {
             id: `${index}-${Date.now()}`,
-            question: questionItem.question,
+            question: decodeString(questionItem.question),
             answer: answer,
             options: options.sort(() => Math.random() - .5)
           }
-        })
+        }))
       })
   }, [])
   return (
-    <FlashcardList flashcards={flashcards} />
+    <div className='container'>
+      <FlashcardList flashcards={flashcards} />
+    </div>
   );
+}
+
+function decodeString(str) {
+  const textArea = document.createElement('textarea')
+  textArea.innerHTML = str;
+  return textArea.value;
 }
 
 const SAMPLE_FLASHCARDS = [
