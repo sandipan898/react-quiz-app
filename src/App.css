@@ -32,15 +32,12 @@ body {
 }
 
 .btn {
-  background-color: hsl(200, 100%, 50%);
-  color: white;
-  padding: .5em 1em;
-  border-radius: .3em;
-  cursor: pointer;
-}
-
-.btn:hover {
-  background-color: hsl(200, 100%, 40%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: .25rem;
+  width: 100%;
 }
 
 .card-grid {

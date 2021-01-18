@@ -6,7 +6,8 @@ export default function Flashcard({ flashcard }) {
     const [height, setHeight] = useState('initial')
     const [selectedAnswer, setSelectedAnswer] = useState('');
     const [isDisabled, setIsDisabled ] = useState(true)
-
+    const [checkMsg, setCheckMsg ] = useState()
+    
     const handleChange = (event) => {
         setSelectedAnswer(event.target.value);
     };
@@ -27,7 +28,12 @@ export default function Flashcard({ flashcard }) {
     }, [])
 
     function handleCheckAnswer() {
-        
+        if (selectedAnswer === flashcard.answer) {
+            console.log(selectedAnswer, flashcard.answer)
+            setCheckMsg("Wrong Answer")
+        } else {
+            setCheckMsg("Correct Answer")
+        }
         setIsDisabled(false)
     }
 
@@ -45,6 +51,7 @@ export default function Flashcard({ flashcard }) {
                         return <input type="radio" className="flashcard-option" key={option} value={option} />
                     })}
                 </div> */}
+                <Typography color="error">{checkMsg}</Typography>
                 <Typography>{flashcard.question}</Typography> 
                 <FormControl component="fieldset">
                 <FormLabel component="legend">Options</FormLabel>
@@ -57,8 +64,10 @@ export default function Flashcard({ flashcard }) {
             </Container>
             <Typography className="back" ref={backEl}>{flashcard.answer}</Typography>
             </div>
-            <Button id="check-answer" variant="contained" color="primary" className="" onClick={handleCheckAnswer} >Check Answer</Button>
-            <Button disabled={isDisabled} id="show-answer" variant="contained" color="primary" className="down card" onClick={() => {setFlip(!flip);}} >Show Answer</Button>
+            <span className="card">
+                <Button id="check-answer" variant="contained" color="secondary" className="btn" onClick={handleCheckAnswer} >Check Answer</Button>
+                <Button disabled={isDisabled} id="show-answer" variant="contained" color="primary" className="down btn" onClick={() => {setFlip(!flip);}} >Show Answer</Button>
+            </span>
         </FormControl>
         </>
     )
