@@ -7,6 +7,7 @@ export default function MainComponent() {
 
     const [flashcards, setFlashcards] = useState([])
     const [categories, setCategories] = useState([])
+    const [select, setSelect] = useState()
 
     const categoryEl = useRef()
     const amountEl = useRef()
@@ -49,6 +50,10 @@ export default function MainComponent() {
             })
     }
 
+    const handleSelectChange = (event) => {
+        setSelect(event.target.value,);
+      };
+
 
     function decodeString(str) {
         const textArea = document.createElement('textarea')
@@ -69,8 +74,9 @@ export default function MainComponent() {
                     </select> */}
                         <Select
                             native
+                            value={select}
+                            onChange={handleSelectChange}
                             label="Question Category"
-                            value={categories}
                             inputProps={{
                                 id: 'category',
                             }}
@@ -95,6 +101,7 @@ export default function MainComponent() {
                         }}
                         variant="outlined"
                         inputRef={amountEl}
+                        style={{margin: "10px"}}
                     />
                     <div className="form-group">
                         {/* <button className="btn">Generate</button> */}
