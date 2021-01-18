@@ -1,8 +1,15 @@
 import React, {useState, useEffect, useRef} from 'react'
+import { Button, Container, Typography, FormLabel, RadioGroup, FormControlLabel, Radio, FormControl } from '@material-ui/core';
 
 export default function Flashcard({ flashcard }) {
     const [flip, setFlip] = useState(false)
     const [height, setHeight] = useState('initial')
+    const [selectedAnswer, setSelectedAnswer] = useState('');
+    const [isDisabled, setIsDisabled ] = useState(true)
+
+    const handleChange = (event) => {
+        setSelectedAnswer(event.target.value);
+    };
 
     const frontEl = useRef()
     const backEl = useRef()
@@ -10,7 +17,7 @@ export default function Flashcard({ flashcard }) {
     function setMaxHeight() {
         const frontHeight = frontEl.current.getBoundingClientRect().height
         const backHeight = backEl.current.getBoundingClientRect().height
-        setHeight(Math.max(frontHeight, backHeight, 200))
+        setHeight(Math.max(frontHeight, backHeight, 300))
     }
 
     useEffect(setMaxHeight, [flashcard.question, flashcard.answer, flashcard.options])
@@ -19,21 +26,40 @@ export default function Flashcard({ flashcard }) {
         return () => window.removeEventListener('resize', setMaxHeight)
     }, [])
 
+    function handleCheckAnswer() {
+        
+        setIsDisabled(false)
+    }
+
     return (
-        <div 
-            onClick={() => setFlip(!flip)} 
-            className={`card ${flip ? `flip` : ``}`}
-            style={{ height: height }}
-            >
-            <div className="front" ref={frontEl}>
-                {flashcard.question} 
-                <div className="flashcard-options">
+        <>
+        <FormControl>
+            <div
+                className={`card ${flip ? `flip` : ``}`}
+                style={{ height: height }}
+            >    
+            <Container className="front" ref={frontEl}>
+                {/* {flashcard.question} 
+                <div className="flashcard-options" value={answer} onChange={handleChange}>
                     {flashcard.options.map(option => {
-                        return <div className="flashcard-option" key={option} >{option}</div>
+                        return <input type="radio" className="flashcard-option" key={option} value={option} />
                     })}
-                </div>
+                </div> */}
+                <Typography>{flashcard.question}</Typography> 
+                <FormControl component="fieldset">
+                <FormLabel component="legend">Options</FormLabel>
+                <RadioGroup aria-label="gender" name="gender1" value={selectedAnswer} onChange={handleChange}>
+                {flashcard.options.map(option => {
+                    return <FormControlLabel value={option} control={<Radio />} label={option} />
+                })}
+                </RadioGroup>
+                </FormControl>
+            </Container>
+            <Typography className="back" ref={backEl}>{flashcard.answer}</Typography>
             </div>
-            <div className="back" ref={backEl}>{flashcard.answer}</div>
-        </div>
+            <Button id="check-answer" variant="contained" color="primary" className="" onClick={handleCheckAnswer} >Check Answer</Button>
+            <Button disabled={isDisabled} id="show-answer" variant="contained" color="primary" className="down card" onClick={() => {setFlip(!flip);}} >Show Answer</Button>
+        </FormControl>
+        </>
     )
 }
