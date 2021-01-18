@@ -7,6 +7,7 @@ export default function Flashcard({ flashcard }) {
     const [selectedAnswer, setSelectedAnswer] = useState('');
     const [isDisabled, setIsDisabled ] = useState(true)
     const [checkMsg, setCheckMsg ] = useState()
+    const [color, setColor ] = useState()
     
     const handleChange = (event) => {
         setSelectedAnswer(event.target.value);
@@ -29,10 +30,11 @@ export default function Flashcard({ flashcard }) {
 
     function handleCheckAnswer() {
         if (selectedAnswer === flashcard.answer) {
-            console.log(selectedAnswer, flashcard.answer)
-            setCheckMsg("Wrong Answer")
+            setCheckMsg("Correct Answer");
+            setColor('primary');
         } else {
-            setCheckMsg("Correct Answer")
+            setCheckMsg("Wrong Answer")
+            setColor('error');
         }
         setIsDisabled(false)
     }
@@ -44,15 +46,16 @@ export default function Flashcard({ flashcard }) {
                 className={`card ${flip ? `flip` : ``}`}
                 style={{ height: height }}
             >    
-            <Container className="front" ref={frontEl}>
+            <Container style={{backgroundColor:{color}}} className="front" ref={frontEl}>
                 {/* {flashcard.question} 
                 <div className="flashcard-options" value={answer} onChange={handleChange}>
                     {flashcard.options.map(option => {
                         return <input type="radio" className="flashcard-option" key={option} value={option} />
                     })}
                 </div> */}
-                <Typography color="error">{checkMsg}</Typography>
+                <Typography color={color}>{checkMsg}</Typography>
                 <Typography>{flashcard.question}</Typography> 
+                <br/>
                 <FormControl component="fieldset">
                 <FormLabel component="legend">Options</FormLabel>
                 <RadioGroup aria-label="gender" name="gender1" value={selectedAnswer} onChange={handleChange}>
@@ -65,8 +68,25 @@ export default function Flashcard({ flashcard }) {
             <Typography className="back" ref={backEl}>{flashcard.answer}</Typography>
             </div>
             <span className="card">
-                <Button id="check-answer" variant="contained" color="secondary" className="btn" onClick={handleCheckAnswer} >Check Answer</Button>
-                <Button disabled={isDisabled} id="show-answer" variant="contained" color="primary" className="down btn" onClick={() => {setFlip(!flip);}} >Show Answer</Button>
+                <Button 
+                    id="check-answer" 
+                    variant="contained" 
+                    color="secondary" 
+                    className="btn" 
+                    onClick={handleCheckAnswer} 
+                >
+                    Check Answer
+                </Button>
+                <Button 
+                    disabled={isDisabled} 
+                    id="show-answer" 
+                    variant="contained" 
+                    color="primary" 
+                    className="btn" 
+                    onClick={() => {setFlip(!flip);}} 
+                >
+                    Show Answer
+                </Button>
             </span>
         </FormControl>
         </>

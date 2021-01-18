@@ -86,10 +86,6 @@ body {
   transform: rotateY(180deg);
 }
 
-.down {
-  position: absolute;
-  padding: 1rem; 
-}
 .flashcard-options {
   margin-top: .5rem;
 }
