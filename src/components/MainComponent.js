@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react'
 import FlashcardList from './FlashcardList';
 import axios from 'axios';
-import { Button, Container, FormControl, TextField, Select, InputLabel } from '@material-ui/core';
+import { Button, Container, FormControl, Typography, TextField, Select, InputLabel } from '@material-ui/core';
 
 export default function MainComponent() {
 
     const [flashcards, setFlashcards] = useState([])
     const [categories, setCategories] = useState([])
     const [select, setSelect] = useState()
+    const [score, setScore] = useState(0)
+    // const [totalScore, setTotalScore] = useState(10)
 
     const categoryEl = useRef()
     const amountEl = useRef()
@@ -25,6 +27,7 @@ export default function MainComponent() {
 
     function handleSubmit(e) {
         e.preventDefault()
+        setScore(0)
 
         axios
             .get('https://opentdb.com/api.php', {
@@ -98,10 +101,11 @@ export default function MainComponent() {
                         {/* <button className="btn">Generate</button> */}
                         <Button onClick={handleSubmit} variant="contained" color="primary">Generate</Button>
                     </div>
+                    <Typography variant="h5" >Score: {score} </Typography>
                 </form>
             </Container>
             <Container className='container'>
-                <FlashcardList flashcards={flashcards} />
+                <FlashcardList flashcards={flashcards} score= {score} setScore={setScore} />
             </Container>
         </>
     );

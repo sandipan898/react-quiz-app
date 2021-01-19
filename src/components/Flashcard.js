@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Button, Container, Typography, FormLabel, RadioGroup, FormControlLabel, Radio, FormControl } from '@material-ui/core';
 
-export default function Flashcard({ flashcard }) {
+export default function Flashcard({ flashcard, setScore, score }) {
     const [flip, setFlip] = useState(false)
     const [height, setHeight] = useState('initial')
     const [selectedAnswer, setSelectedAnswer] = useState('');
@@ -9,6 +9,7 @@ export default function Flashcard({ flashcard }) {
     const [checkMsg, setCheckMsg] = useState()
     const [color, setColor] = useState()
     const [showText, setShowText] = useState('Show')
+    const [isAnswered, setIsAnswered] = useState(false)
 
     const handleChange = (event) => {
         setSelectedAnswer(event.target.value);
@@ -33,11 +34,14 @@ export default function Flashcard({ flashcard }) {
         if (selectedAnswer === flashcard.answer) {
             setCheckMsg("Correct Answer");
             setColor('primary');
+            if (!isAnswered)
+                setScore(score+1)
         } else {
             setCheckMsg("Wrong Answer")
             setColor('error');
         }
         setIsDisabled(false)
+        setIsAnswered(true)
     }
 
     function handleShowAnswer() {
